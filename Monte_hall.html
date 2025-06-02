@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monty Hall Problem - Monte Carlo Simulation</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 30px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 25px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #27ae60;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #219150;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ecf8f1;
+            border-radius: 5px;
+            text-align: center;
+        }
+        canvas {
+            margin-top: 20px;
+            max-width: 33%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Mô phỏng Bài toán Monty Hall bằng Monte Carlo</h2>
+
+    <label>Số lần chạy mô phỏng:</label>
+    <input type="number" id="simulations" value="10000" min="1">
+
+    <button onclick="runSimulation()">Chạy Mô phỏng</button>
+
+    <div class="result" id="result"></div>
+
+    <canvas id="chart"></canvas>
+</div>
+
+<script>
+function runSimulation() {
+    const simulations = parseInt(document.getElementById('simulations').value);
+    let switchWin = 0, stayWin = 0;
+
+    for(let i = 0; i < simulations; i++) {
+        const prizeDoor = Math.floor(Math.random() * 3);
+        const playerChoice = Math.floor(Math.random() * 3);
+        let revealDoor;
+
+        do {
+            revealDoor = Math.floor(Math.random() * 3);
+        } while(revealDoor === playerChoice || revealDoor === prizeDoor);
+
+        const switchChoice = [0,1,2].find(door => door !== playerChoice && door !== revealDoor);
+
+        if(playerChoice === prizeDoor) stayWin++;
+        if(switchChoice === prizeDoor) switchWin++;
+    }
+
+    const stayWinPercent = (stayWin / simulations * 100).toFixed(2);
+    const switchWinPercent = (switchWin / simulations * 100).toFixed(2);
+
+    document.getElementById('result').innerHTML = `
+        <strong>Kết quả sau ${simulations} lần mô phỏng:</strong><br>
+        Giữ nguyên cửa: Thắng ${stayWinPercent}%<br>
+        Đổi cửa: Thắng ${switchWinPercent}%
+    `;
+
+    const ctx = document.getElementById('chart').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Giữ nguyên cửa', 'Đổi cửa'],
+            datasets: [{
+                data: [stayWin, switchWin],
+                backgroundColor: ['#e74c3c', '#27ae60']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                }
+            }
+        }
+    });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phân phối Nhị thức - Tương tác</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@12.4.2/lib/browser/math.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* Slider tùy chỉnh */
+        input[type="range"] {
+            -webkit-appearance: none;
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 4px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #3b82f6;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: #3b82f6;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        /* Text input */
+        input[type="number"] {
+            transition: border-color 0.3s ease;
+        }
+        input[type="number"]:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        /* Canvas */
+        canvas {
+            max-height: 300px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen flex items-center justify-center">
+    <div class="container mx-auto p-6 max-w-5xl bg-white rounded-xl shadow-xl">
+        <!-- Tiêu đề -->
+        <h2 class="text-3xl font-bold text-center text-blue-600 mb-8">Phân phối Nhị thức - Tương tác</h2>
+
+        <!-- Điều khiển tham số -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <!-- Số thử nghiệm n -->
+            <div>
+                <label class="block mb-2 font-medium text-gray-700">Số thử nghiệm \( n \)</label>
+                <input type="range" id="nRange" min="1" max="100" value="10" class="w-full mb-2">
+                <input type="number" id="n" value="10" min="1" max="100" class="w-full border rounded-lg p-2 focus:outline-none">
+            </div>
+            <!-- Xác suất thành công p -->
+            <div>
+                <label class="block mb-2 font-medium text-gray-700">Xác suất thành công \( p \)</label>
+                <input type="range" id="pRange" min="0" max="1" step="0.01" value="0.5" class="w-full mb-2">
+                <input type="number" id="p" step="0.01" value="0.5" min="0" max="1" class="w-full border rounded-lg p-2 focus:outline-none">
+            </div>
+            <!-- Số lần thành công k -->
+            <div>
+                <label class="block mb-2 font-medium text-gray-700">Số lần thành công \( k \)</label>
+                <input type="range" id="kRange" min="0" max="10" value="5" class="w-full mb-2">
+                <input type="number" id="k" value="5" min="0" class="w-full border rounded-lg p-2 focus:outline-none">
+            </div>
+        </div>
+
+        <!-- Công thức -->
+        <div id="formula" class="bg-gray-50 p-6 rounded-lg shadow-inner mb-8 text-center">
+            \[ P(X = k) = \binom{n}{k} p^{k} (1-p)^{n-k} \]
+        </div>
+
+        <!-- Kết quả -->
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <!-- Kết quả lý thuyết -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="font-semibold text-blue-600 mb-2">Kết quả lý thuyết</h3>
+                <div id="theoreticalResult" class="text-gray-700"></div>
+            </div>
+            <!-- Kết quả mô phỏng -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="font-semibold text-green-600 mb-2">Kết quả mô phỏng</h3>
+                <div id="simulationResult" class="text-gray-700"></div>
+            </div>
+        </div>
+
+        <!-- Đồ thị -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <canvas id="chart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Khai báo biến
+        const nRange = document.getElementById('nRange');
+        const pRange = document.getElementById('pRange');
+        const kRange = document.getElementById('kRange');
+        const nInput = document.getElementById('n');
+        const pInput = document.getElementById('p');
+        const kInput = document.getElementById('k');
+        let chartInstance = null;
+
+        // Hàm tính xác suất nhị thức
+        function binomialProbability(n, k, p) {
+            if (k < 0 || k > n) return 0;
+            return math.combinations(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
+        }
+
+        // Hàm cập nhật giao diện và tính toán
+        function updateInterface() {
+            // Lấy giá trị từ sliders và inputs
+            let n = parseInt(nRange.value);
+            let p = parseFloat(pRange.value);
+            let k = parseInt(kRange.value);
+
+            // Đồng bộ inputs với sliders
+            nInput.value = n;
+            pInput.value = p.toFixed(2);
+            kInput.value = k;
+
+            // Cập nhật giới hạn cho kRange dựa trên n
+            kRange.max = n;
+
+            // Đảm bảo k không vượt quá n
+            if (k > n) {
+                k = n;
+                kRange.value = k;
+                kInput.value = k;
+            }
+
+            // Cập nhật công thức LaTeX
+            document.getElementById('formula').innerHTML = `
+                \\[ P(X = ${k}) = \\binom{${n}}{${k}} ${p.toFixed(2)}^{${k}} (1-${p.toFixed(2)})^{${n}-${k}} \\]
+            `;
+            MathJax.typesetPromise();
+
+            // Tính kết quả lý thuyết
+            const theoretical = binomialProbability(n, k, p).toFixed(4);
+            document.getElementById('theoreticalResult').textContent = `P(X=${k}) = ${theoretical}`;
+
+            // Mô phỏng
+            const simulations = 500; // Giảm số lần mô phỏng để tăng hiệu suất
+            let successes = 0;
+            for (let i = 0; i < simulations; i++) {
+                let count = 0;
+                for (let j = 0; j < n; j++) if (Math.random() < p) count++;
+                if (count === k) successes++;
+            }
+            const simulated = (successes / simulations).toFixed(4);
+            document.getElementById('simulationResult').textContent = `P(X=${k}) ≈ ${simulated}`;
+
+            // Cập nhật đồ thị
+            if (chartInstance) chartInstance.destroy();
+            const ctx = document.getElementById('chart').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Array.from({ length: n + 1 }, (_, i) => i),
+                    datasets: [
+                        {
+                            label: 'Lý thuyết',
+                            data: Array.from({ length: n + 1 }, (_, i) => binomialProbability(n, i, p)),
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)', // Xanh dương đậm
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Mô phỏng',
+                            data: Array.from({ length: n + 1 }, (_, i) => {
+                                let simSuccesses = 0;
+                                for (let s = 0; s < simulations; s++) {
+                                    let count = 0;
+                                    for (let j = 0; j < n; j++) if (Math.random() < p) count++;
+                                    if (count === i) simSuccesses++;
+                                }
+                                return simSuccesses / simulations;
+                            }),
+                            backgroundColor: 'rgba(34, 197, 94, 0.7)', // Xanh lá cây
+                            borderColor: 'rgba(34, 197, 94, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            // Đường dọc đánh dấu k hiện tại
+                            type: 'line',
+                            label: `k = ${k}`,
+                            data: Array.from({ length: n + 1 }, (_, i) => i === k ? Math.max(...Array.from({ length: n + 1 }, (_, i) => binomialProbability(n, i, p))) : null),
+                            borderColor: 'rgba(239, 68, 68, 1)', // Đỏ
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: { enabled: true }
+                    },
+                    scales: {
+                        x: { title: { display: true, text: 'Số lần thành công (k)' } },
+                        y: { title: { display: true, text: 'Xác suất' }, beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        // Sự kiện cho sliders
+        nRange.addEventListener('input', () => {
+            updateInterface();
+        });
+
+        pRange.addEventListener('input', () => {
+            updateInterface();
+        });
+
+        kRange.addEventListener('input', () => {
+            updateInterface();
+        });
+
+        // Sự kiện cho inputs
+        nInput.addEventListener('input', () => {
+            let n = parseInt(nInput.value) || 1;
+            if (n < 1) n = 1;
+            if (n > 100) n = 100;
+            nRange.value = n;
+            updateInterface();
+        });
+
+        pInput.addEventListener('input', () => {
+            let p = parseFloat(pInput.value) || 0;
+            if (p < 0) p = 0;
+            if (p > 1) p = 1;
+            pRange.value = p;
+            updateInterface();
+        });
+
+        kInput.addEventListener('input', () => {
+            let k = parseInt(kInput.value) || 0;
+            if (k < 0) k = 0;
+            if (k > parseInt(nInput.value)) k = parseInt(nInput.value);
+            kRange.value = k;
+            updateInterface();
+        });
+
+        // Khởi tạo
+        window.onload = updateInterface;
+    </script>
+</body>
+</html>

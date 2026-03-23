@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Đề thi trắc nghiệm: Thống kê Mô tả - Hành trình từ Vườn hoa</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', 'Times New Roman', 'Georgia', serif;
+            background: #f0f7e8;
+            margin: 0;
+            padding: 20px;
+            color: #1e3c2c;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fffef7;
+            border-radius: 28px;
+            box-shadow: 0 20px 35px rgba(0, 32, 0, 0.1);
+            padding: 25px 30px 45px;
+            border: 1px solid #cfe3c3;
+        }
+        h1 {
+            font-size: 1.9rem;
+            text-align: center;
+            color: #2b5e2f;
+            border-bottom: 3px solid #b7d7a8;
+            display: inline-block;
+            width: 100%;
+            margin-top: 0;
+            padding-bottom: 12px;
+        }
+        .sub {
+            text-align: center;
+            font-style: italic;
+            color: #4a6741;
+            margin-top: -10px;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+        .question-card {
+            background: #ffffff;
+            border-left: 8px solid #7cb342;
+            margin-bottom: 28px;
+            padding: 18px 22px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: 0.2s;
+        }
+        .question-text {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            color: #1f3b1a;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .option-btn {
+            background: #f5f9f0;
+            border: 2px solid #cbe5bc;
+            border-radius: 60px;
+            padding: 10px 18px;
+            font-size: 1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            font-weight: 500;
+            color: #2c4b2a;
+        }
+        .option-btn:hover:not(.disabled-opt) {
+            background: #e2f0da;
+            border-color: #8bc34a;
+            transform: scale(0.99);
+        }
+        /* trạng thái sau khi chọn */
+        .correct {
+            background: #c8e6c9 !important;
+            border-color: #2e7d32 !important;
+            color: #1b5e20;
+            font-weight: bold;
+        }
+        .incorrect {
+            background: #ffcdd2 !important;
+            border-color: #c62828 !important;
+            color: #b71c1c;
+            text-decoration: line-through;
+        }
+        .disabled-opt {
+            cursor: default;
+            opacity: 0.9;
+        }
+        .explanation {
+            background: #fef9e6;
+            border-left: 5px solid #ffb74d;
+            padding: 12px 18px;
+            border-radius: 18px;
+            font-size: 0.92rem;
+            color: #5d3a1a;
+            margin-top: 10px;
+            display: none;
+            line-height: 1.45;
+        }
+        .explanation.show {
+            display: block;
+        }
+        .feedback-icon {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .score-area {
+            background: #eaf5e3;
+            padding: 14px 20px;
+            border-radius: 40px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 25px 0 20px;
+            position: sticky;
+            top: 10px;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .reset-btn {
+            background: #2e7d32;
+            border: none;
+            color: white;
+            padding: 10px 24px;
+            font-size: 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+            margin-top: 10px;
+            display: inline-block;
+            font-family: inherit;
+        }
+        .reset-btn:hover {
+            background: #1b5e20;
+            transform: scale(1.01);
+        }
+        footer {
+            text-align: center;
+            margin-top: 35px;
+            font-size: 0.75rem;
+            color: #6a8e5f;
+            border-top: 1px solid #ddecd0;
+            padding-top: 18px;
+        }
+        @media (max-width: 650px) {
+            .container {
+                padding: 16px;
+            }
+            .question-text {
+                font-size: 1rem;
+            }
+            .option-btn {
+                font-size: 0.9rem;
+                padding: 8px 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🌿 Đề thi trắc nghiệm<br>Thống kê Mô tả</h1>
+    <div class="sub">📖 “Hành trình từ Vườn hoa đến Bức tranh Khoa học”<br>Dr.rer.nat Duymt</div>
+
+    <div class="score-area" id="scoreArea">
+        📊 Điểm số: <span id="scoreValue">0</span> / <span id="totalQuestions"></span>
+        <button class="reset-btn" id="resetQuiz">🌱 Làm lại bài thi</button>
+    </div>
+
+    <div id="questionsContainer"></div>
+    <footer>✨ Mỗi câu chỉ có một đáp án đúng. Chọn vào ô để kiểm tra – hiển thị giải thích ngay bên dưới.</footer>
+</div>
+
+<script>
+    // ========= DANH SÁCH CÂU HỎI DỰA TRÊN BÀI GIẢNG VƯỜN HOA ==========
+    const questions = [
+        { // 1
+            text: "Trong ẩn dụ “khu vườn” của bài giảng, “toàn bộ khu vườn với hàng ngàn bông hoa” tượng trưng cho khái niệm thống kê nào?",
+            options: [
+                "Mẫu (Sample)",
+                "Tổng thể (Population)",
+                "Đơn vị mẫu (Sampling unit)",
+                "Thống kê mẫu (Statistic)"
+            ],
+            correct: 1,
+            explanation: "🌳 Toàn bộ khu vườn là TỔNG THỂ (Ω) – tập hợp tất cả các phần tử cần nghiên cứu. Lẵng hoa đại diện mới là mẫu."
+        },
+        { // 2
+            text: "Nếu ta tính chiều cao trung bình của tất cả bông hoa trong khu vườn (không thể đo hết), đó được gọi là gì?",
+            options: [
+                "Trung bình mẫu (x̄)",
+                "Tham số (μ)",
+                "Biến ngẫu nhiên",
+                "Sai số lấy mẫu"
+            ],
+            correct: 1,
+            explanation: "📐 Tham số (parameter) là đặc trưng số của tổng thể, ký hiệu μ. Trung bình mẫu (x̄) là thống kê tính từ lẵng hoa."
+        },
+        { // 3
+            text: "Loài hoa (Hồng, Cúc, Lan) được phân loại thuộc thang đo nào?",
+            options: [
+                "Thang đo khoảng (Interval)",
+                "Thang đo tỉ lệ (Ratio)",
+                "Thang đo định danh (Nominal)",
+                "Thang đo thứ bậc (Ordinal)"
+            ],
+            correct: 2,
+            explanation: "🏷️ Tên loài hoa chỉ là nhãn phân loại, không có thứ tự hơn kém → thang đo ĐỊNH DANH (Nominal)."
+        },
+        { // 4
+            text: "Xếp hạng hương thơm của hoa từ 1 đến 5 sao (5 sao thơm hơn 3 sao) nhưng không thể nói “4 sao thơm gấp đôi 2 sao” thuộc thang đo nào?",
+            options: [
+                "Định danh (Nominal)",
+                "Thứ bậc (Ordinal)",
+                "Khoảng (Interval)",
+                "Tỉ lệ (Ratio)"
+            ],
+            correct: 1,
+            explanation: "⭐ Thang đo THỨ BẬC (Ordinal): có thứ tự nhưng khoảng cách không có ý nghĩa toán học."
+        },
+        { // 5
+            text: "Nhiệt độ sinh trưởng tối ưu của hoa được đo bằng °C. Điều nào sau đây ĐÚNG với thang đo này?",
+            options: [
+                "Có điểm 0 tuyệt đối, cho phép nói “gấp đôi”",
+                "Không có điểm 0 tuyệt đối, nhưng hiệu số có ý nghĩa",
+                "Chỉ phân loại, không có thứ tự",
+                "Là thang đo tỉ lệ vì có số 0"
+            ],
+            correct: 1,
+            explanation: "🌡️ Nhiệt độ °C là thang đo KHOẢNG (Interval): 0°C là quy ước, không phải không có nhiệt độ. Hiệu số có nghĩa."
+        },
+        { // 6
+            text: "Chiều cao của cây hoa (cm) và số cánh hoa là ví dụ của thang đo nào?",
+            options: [
+                "Định danh",
+                "Thứ bậc",
+                "Khoảng",
+                "Tỉ lệ"
+            ],
+            correct: 3,
+            explanation: "📏 Thang đo TỈ LỆ (Ratio): có điểm 0 tuyệt đối, cho phép so sánh tỉ lệ (cây 40cm cao gấp đôi cây 20cm)."
+        },
+        { // 7
+            text: "Một nhà nghiên cứu muốn lấy mẫu đại diện từ vườn hoa gồm nhiều luống (hồng, cúc, lan). Để đảm bảo đủ đại diện từ mỗi loài, phương pháp lấy mẫu phù hợp nhất là:",
+            options: [
+                "Mẫu ngẫu nhiên đơn giản",
+                "Mẫu phân tầng (stratified)",
+                "Mẫu hệ thống",
+                "Mẫu thuận tiện"
+            ],
+            correct: 1,
+            explanation: "🌺 Phân tầng: chia vườn thành các luống (tầng), lấy ngẫu nhiên trong mỗi tầng → đảm bảo đại diện đủ loài."
+        },
+        { // 8
+            text: "Phương pháp “cứ cách 5 gốc hoa lại lấy một gốc” được gọi là:",
+            options: [
+                "Lấy mẫu ngẫu nhiên đơn giản",
+                "Lấy mẫu hệ thống",
+                "Lấy mẫu theo cụm",
+                "Lấy mẫu phân tầng"
+            ],
+            correct: 1,
+            explanation: "🚶 Lấy mẫu HỆ THỐNG (systematic): chọn điểm khởi đầu ngẫu nhiên, sau đó chọn mỗi phần tử thứ k."
+        },
+        { // 9
+            text: "Trong quá trình làm sạch dữ liệu, “nhặt bỏ những bông hoa héo, sâu bệnh” tương ứng với việc:",
+            options: [
+                "Loại bỏ giá trị thiếu và dữ liệu bất thường",
+                "Tăng cỡ mẫu",
+                "Chuyển đổi thang đo",
+                "Giảm sai số lấy mẫu"
+            ],
+            correct: 0,
+            explanation: "🧹 Làm sạch dữ liệu: loại bỏ quan sát nhiễu, giá trị ngoại lai, lỗi nhập → giống như vứt bỏ bông hỏng."
+        },
+        { // 10
+            text: "Sai số nào xảy ra khi một số luống hoa ở góc vườn không hề được đưa vào danh sách để chọn mẫu?",
+            options: [
+                "Sai số lấy mẫu",
+                "Sai số bao phủ (Coverage error)",
+                "Sai số đo lường",
+                "Sai số không phản hồi"
+            ],
+            correct: 1,
+            explanation: "🚫 Sai số BAO PHỦ: khung mẫu không bao phủ hết tổng thể → một số nhóm không có cơ hội được chọn."
+        },
+        { // 11
+            text: "Biến “số cánh hoa” (5, 6, 7, 8…) là biến:",
+            options: [
+                "Định tính, rời rạc",
+                "Định lượng, liên tục",
+                "Định lượng, rời rạc",
+                "Thang đo khoảng"
+            ],
+            correct: 2,
+            explanation: "🔢 Số cánh hoa là biến định lượng (numerical), rời rạc (discrete) vì phát sinh từ đếm, giá trị là số nguyên."
+        },
+        { // 12
+            text: "Một cuộc khảo sát chỉ phỏng vấn du khách vào ngày Chủ nhật. Kết luận “90% thích hoa hồng” có thể mắc sai số chủ yếu nào?",
+            options: [
+                "Sai số lấy mẫu (do mẫu nhỏ)",
+                "Sai số bao phủ và không phản hồi (chỉ khảo sát một nhóm đặc biệt)",
+                "Sai số đo lường do câu hỏi",
+                "Không có sai số"
+            ],
+            correct: 1,
+            explanation: "📅 Sai số bao phủ: khung mẫu chỉ là người đến vườn Chủ nhật, không đại diện cho tổng thể du khách mọi thời điểm."
+        }
+    ];
+
+    // DOM elements
+    const container = document.getElementById('questionsContainer');
+    const scoreSpan = document.getElementById('scoreValue');
+    const totalSpan = document.getElementById('totalQuestions');
+    const resetBtn = document.getElementById('resetQuiz');
+
+    let userAnswers = new Array(questions.length).fill(null);      // lưu index đã chọn (0..3) hoặc null
+    let questionState = new Array(questions.length).fill(false);   // đã trả lời hay chưa (khóa)
+    let score = 0;
+
+    function updateScore() {
+        let correctCount = 0;
+        for (let i = 0; i < questions.length; i++) {
+            if (userAnswers[i] !== null && userAnswers[i] === questions[i].correct) {
+                correctCount++;
+            }
+        }
+        score = correctCount;
+        scoreSpan.innerText = score;
+        totalSpan.innerText = questions.length;
+    }
+
+    // Hiển thị lại toàn bộ câu hỏi dựa trên state hiện tại
+    function renderQuestions() {
+        container.innerHTML = '';
+        for (let i = 0; i < questions.length; i++) {
+            const q = questions[i];
+            const answered = userAnswers[i] !== null;
+            const selectedIdx = userAnswers[i];
+            const isCorrect = (selectedIdx !== null && selectedIdx === q.correct);
+            
+            // Tạo card
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.id = `qcard-${i}`;
+            
+            // Câu hỏi
+            const qTextDiv = document.createElement('div');
+            qTextDiv.className = 'question-text';
+            qTextDiv.innerHTML = `<span style="background:#eef5e8; padding:2px 10px; border-radius:30px;">${i+1}</span> ${q.text}`;
+            card.appendChild(qTextDiv);
+            
+            // Các nút lựa chọn
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options';
+            const optionButtons = [];
+            
+            for (let optIdx = 0; optIdx < q.options.length; optIdx++) {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `${String.fromCharCode(65+optIdx)}. ${q.options[optIdx]}`;
+                btn.setAttribute('data-qidx', i);
+                btn.setAttribute('data-optidx', optIdx);
+                
+                // Nếu đã chọn, highlight đúng/sai
+                if (answered) {
+                    btn.classList.add('disabled-opt');
+                    if (optIdx === q.correct) {
+                        btn.classList.add('correct');
+                    } else if (optIdx === selectedIdx && optIdx !== q.correct) {
+                        btn.classList.add('incorrect');
+                    }
+                } else {
+                    btn.addEventListener('click', (function(qIdx, optIndex) {
+                        return function() { handleAnswer(qIdx, optIndex); };
+                    })(i, optIdx));
+                }
+                optionsDiv.appendChild(btn);
+                optionButtons.push(btn);
+            }
+            card.appendChild(optionsDiv);
+            
+            // Giải thích (ẩn hoặc hiện nếu đã chọn)
+            const explDiv = document.createElement('div');
+            explDiv.className = 'explanation';
+            if (answered) {
+                explDiv.classList.add('show');
+                const icon = isCorrect ? '✅' : '❌';
+                const correctAnswerLetter = String.fromCharCode(65 + q.correct);
+                explDiv.innerHTML = `<span class="feedback-icon">${icon}</span> <strong>Giải thích:</strong> ${q.explanation}<br><span style="font-size:0.85rem; display:inline-block; margin-top:6px;">📌 Đáp án đúng: ${correctAnswerLetter}. ${q.options[q.correct]}</span>`;
+            } else {
+                explDiv.innerHTML = `<span class="feedback-icon">📖</span> <em>Chọn một đáp án để xem giải thích chi tiết.</em>`;
+            }
+            card.appendChild(explDiv);
+            
+            container.appendChild(card);
+        }
+        updateScore();
+    }
+    
+    // Xử lý khi người dùng chọn đáp án
+    function handleAnswer(qIdx, optIdx) {
+        // Nếu câu này đã trả lời rồi thì không làm gì
+        if (userAnswers[qIdx] !== null) return;
+        
+        const isAnsCorrect = (optIdx === questions[qIdx].correct);
+        userAnswers[qIdx] = optIdx;
+        
+        // Cập nhật điểm và render lại toàn bộ (cập nhật giao diện khóa)
+        renderQuestions();
+        
+        // Sau khi render, hiệu ứng nhẹ: scroll đến phần giải thích vừa mở (tuỳ chọn)
+        const explanationDiv = document.querySelector(`#qcard-${qIdx} .explanation`);
+        if (explanationDiv) {
+            explanationDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }
+    
+    // Reset toàn bộ
+    function resetQuiz() {
+        userAnswers = new Array(questions.length).fill(null);
+        questionState = new Array(questions.length).fill(false);
+        score = 0;
+        renderQuestions();
+        // cuộn lên đầu
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // Khởi tạo
+    function init() {
+        totalSpan.innerText = questions.length;
+        renderQuestions();
+        resetBtn.addEventListener('click', resetQuiz);
+    }
+    
+    init();
+</script>
+</body>
+</html>

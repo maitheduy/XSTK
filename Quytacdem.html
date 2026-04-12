@@ -32,7 +32,7 @@
     /* ===== RESET & BASE ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
-    @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap');
     
     :root {
       --bg-gradient: linear-gradient(180deg, #87CEEB 0%, #98D8C8 40%, #90A955 70%, #6B8E23 100%);
@@ -45,9 +45,20 @@
       --accent-blue: #4A90D9;
       --accent-green: #50B848;
       --accent-orange: #F5A623;
+      --poem-bg-start: #FFF9E6;
+      --poem-bg-end: #F5E6D3;
+      --poem-border: #C9A961;
+      --poem-text: #4A3728;
+      
+      /* Colors for diagram nodes */
+      --node-blue: #4A90D9;
+      --node-green: #50B848;
+      --node-orange: #F5A623;
+      --node-red: #E74C3C;
+      --node-purple: #9B59B6;
+      --node-teal: #1ABC9C;
     }
     
-    /* Dark mode variables */
     body.dark-mode {
       --bg-gradient: linear-gradient(180deg, #1a1a2e 0%, #16213e 40%, #0f3460 70%, #1a1a2e 100%);
       --bg-pattern: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='1' fill='rgba(255,255,255,0.1)'/%3E%3C/svg%3E");
@@ -56,6 +67,16 @@
       --card-border: #6d6d8a;
       --header-bg: linear-gradient(135deg, #2d2d44 0%, #3d3d5c 50%, #4d4d6a 100%);
       --border-gold: #a1887f;
+      --poem-bg-start: #2a2620;
+      --poem-bg-end: #3d3428;
+      --poem-border: #8B7355;
+      --poem-text: #e8dcc8;
+      --node-blue: #5B9BD5;
+      --node-green: #70C470;
+      --node-orange: #F4B543;
+      --node-red: #EC7063;
+      --node-purple: #AF7AC5;
+      --node-teal: #48C9B0;
     }
     
     body {
@@ -347,91 +368,141 @@
       color: #5D4037;
     }
     
-    /* ===== SVG DIAGRAM STYLES ===== */
+    /* ===== SVG DIAGRAM STYLES - CẬP NHẬT MỚI ===== */
     .diagram-container {
-      background: rgba(255,255,255,0.9);
-      border-radius: 12px;
-      padding: 1rem;
-      margin: 1rem 0;
+      background: rgba(255,255,255,0.95);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
       text-align: center;
       overflow-x: auto;
+      border: 2px solid var(--card-border);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     body.dark-mode .diagram-container {
       background: rgba(45,45,68,0.95);
+      border-color: #6d6d8a;
     }
     .diagram-container svg {
       max-width: 100%;
       height: auto;
+      display: block;
+      margin: 0 auto;
     }
     .diagram-caption {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: #6D4C41;
-      margin-top: 0.5rem;
+      margin-top: 1rem;
       font-style: italic;
+      padding: 0.5rem;
+      background: rgba(255,255,255,0.6);
+      border-radius: 8px;
     }
+    body.dark-mode .diagram-caption {
+      background: rgba(45,45,68,0.6);
+      color: #c5b8a8;
+    }
+    
+    /* Table styles */
     table.diagram-table {
       width: 100%;
       border-collapse: collapse;
-      margin: 0.5rem 0;
+      margin: 1rem 0;
+      font-size: 0.9rem;
     }
     table.diagram-table th, table.diagram-table td {
       border: 1px solid #BCAAA4;
-      padding: 0.5rem;
+      padding: 0.75rem;
       text-align: center;
     }
     table.diagram-table th {
       background: #D7CCC8;
       color: #5D4037;
+      font-weight: 600;
+    }
+    body.dark-mode table.diagram-table th {
+      background: #3d3d5c;
+      color: #e0e0e0;
+    }
+    body.dark-mode table.diagram-table td {
+      border-color: #6d6d8a;
     }
 
     /* ===== MATHJAX STYLE OVERRIDES ===== */
-    .prose-context .MathJax {
-      font-size: 1.05rem;
+    .prose-context .MathJax,
+    .diagram-container .MathJax {
+      font-size: 1.1rem;
     }
-    .prose-context mjx-container {
-      margin: 0.2rem 0;
+    .prose-context mjx-container,
+    .diagram-container mjx-container {
+      margin: 0.1rem 0;
+      display: inline-block;
+    }
+    
+    /* Math inside SVG nodes */
+    .math-node {
+      font-size: 0.85rem;
+      color: white;
+      text-align: center;
+      line-height: 1.4;
+    }
+    .math-node .formula {
+      display: block;
+      margin: 4px 0;
+      font-weight: 600;
+    }
+    .math-node .label {
+      font-size: 0.75rem;
+      opacity: 0.95;
+      margin-top: 2px;
     }
 
     /* ===== POEM CONTENT ===== */
     .poem-content {
-      font-size: 1.3rem;
-      line-height: 2.2;
+      font-size: 1.35rem;
+      line-height: 2.4;
       text-align: center;
       margin: 1.5rem 0;
-      padding: 1.8rem;
-      background: rgba(255,255,255,0.9);
-      border-radius: 15px;
-      border: 2px solid #D7CCC8;
+      padding: 2rem 2.5rem;
+      background: 
+        linear-gradient(135deg, var(--poem-bg-start) 0%, var(--poem-bg-end) 100%),
+        url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23C9A961' stroke-opacity='0.15' stroke-width='0.5'%3E%3Cpath d='M0 40 Q 20 30, 40 40 T 80 40'/%3E%3Cpath d='M40 0 Q 30 20, 40 40 T 40 80'/%3E%3C/g%3E%3C/svg%3E");
+      border: 2px solid var(--poem-border);
+      border-radius: 8px;
+      box-shadow: 
+        0 6px 20px rgba(74, 55, 40, 0.12),
+        inset 0 1px 0 rgba(255,255,255,0.6),
+        inset 0 -1px 0 rgba(0,0,0,0.05);
       white-space: pre-line;
-      font-weight: 500;
-      color: #3E2723;
+      font-weight: 400;
+      color: var(--poem-text);
       position: relative;
-      box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
-    }
-    body.dark-mode .poem-content {
-      background: rgba(45,45,68,0.95);
-      color: #e0e0e0;
-      border-color: #6d6d8a;
+      font-style: italic;
+      font-family: 'Playfair Display', Georgia, 'Be Vietnam Pro', serif;
+      background-attachment: local;
     }
     .poem-content::before {
-      content: '"';
+      content: '✦';
       position: absolute;
-      top: 10px; left: 20px;
-      font-size: 4rem;
-      color: #BCAAA4;
-      opacity: 0.4;
-      font-family: Georgia, serif;
-      line-height: 1;
+      top: 8px; left: 15px;
+      font-size: 1.2rem;
+      color: var(--poem-border);
+      opacity: 0.7;
+      font-style: normal;
     }
     .poem-content::after {
-      content: '"';
+      content: '✦';
       position: absolute;
-      bottom: -10px; right: 20px;
-      font-size: 4rem;
-      color: #BCAAA4;
-      opacity: 0.4;
-      font-family: Georgia, serif;
-      line-height: 1;
+      bottom: 8px; right: 15px;
+      font-size: 1.2rem;
+      color: var(--poem-border);
+      opacity: 0.7;
+      font-style: normal;
+    }
+    body.dark-mode .poem-content {
+      box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255,255,255,0.1);
     }
 
     /* ===== ACTION BUTTONS ===== */
@@ -476,9 +547,7 @@
       border-color: #0288D1;
       color: #01579B;
     }
-    body.dark-mode .btn.copy {
-      color: white;
-    }
+    body.dark-mode .btn.copy { color: white; }
     .btn.copy:hover { 
       background: #0288D1; 
       color: white;
@@ -492,51 +561,14 @@
       background: #1b1f23; 
       color: #FFF8E1;
     }
-    .btn.github::before {
-      content: '🐙';
-      margin-right: 0.3rem;
-    }
+    .btn.github::before { content: '🐙'; margin-right: 0.3rem; }
     .btn.pdf {
       background: #E74C3C;
       border-color: #C0392B;
       color: white;
     }
-    .btn.pdf:hover {
-      background: #C0392B;
-    }
-    .btn.pdf::before {
-      content: '📄';
-      margin-right: 0.3rem;
-    }
-
-    /* ===== GITHUB INFO BOX ===== */
-    .github-info {
-      background: linear-gradient(135deg, #f6f8fa, #e1e4e8);
-      border: 2px solid #0366d6;
-      border-radius: 12px;
-      padding: 1rem 1.2rem;
-      margin: 1.5rem 0;
-      font-size: 0.9rem;
-      color: #24292e;
-    }
-    body.dark-mode .github-info {
-      background: linear-gradient(135deg, #2d2d44, #1f1f3a);
-      border-color: #5b9bd5;
-      color: #e0e0e0;
-    }
-    .github-info strong {
-      color: #0366d6;
-    }
-    body.dark-mode .github-info strong {
-      color: #81d4fa;
-    }
-    .github-info ol {
-      padding-left: 1.5rem;
-      margin: 0.5rem 0;
-    }
-    .github-info li {
-      margin: 0.3rem 0;
-    }
+    .btn.pdf:hover { background: #C0392B; }
+    .btn.pdf::before { content: '📄'; margin-right: 0.3rem; }
 
     /* ===== FOOTER ===== */
     footer {
@@ -558,9 +590,7 @@
       padding: 0 2rem;
       font-size: 1.5rem;
     }
-    footer p {
-      margin: 0.5rem 0;
-    }
+    footer p { margin: 0.5rem 0; }
     .footer-heart {
       color: #EF5350;
       font-size: 1.3rem;
@@ -571,9 +601,7 @@
       text-decoration: none;
       font-weight: 600;
     }
-    .footer-link:hover {
-      text-decoration: underline;
-    }
+    .footer-link:hover { text-decoration: underline; }
 
     /* ===== TOAST NOTIFICATION ===== */
     .toast {
@@ -594,48 +622,7 @@
       align-items: center;
       gap: 0.7rem;
     }
-    .toast.show {
-      transform: translateX(0);
-    }
-
-    /* ===== UTILITIES ===== */
-    .hidden { display: none !important; }
-    .text-center { text-align: center; }
-    .mt-2 { margin-top: 2rem; }
-
-    /* ===== ANIMATIONS ===== */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate {
-      animation: fadeIn 0.6s ease forwards;
-    }
-
-    /* ===== SCROLLBAR ===== */
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #EFEBE9;
-      border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #8D6E63;
-      border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #5D4037;
-    }
-    body.dark-mode ::-webkit-scrollbar-track {
-      background: #2d2d44;
-    }
-    body.dark-mode ::-webkit-scrollbar-thumb {
-      background: #6d6d8a;
-    }
-    body.dark-mode ::-webkit-scrollbar-thumb:hover {
-      background: #8d8daa;
-    }
+    .toast.show { transform: translateX(0); }
 
     /* ===== PRINT STYLES ===== */
     @media print {
@@ -653,71 +640,39 @@
         background: white !important;
       }
       .poem-content {
+        background: #FFF9E6 !important;
+        border: 1px solid #C9A961 !important;
+        color: #4A3728 !important;
+        font-style: italic !important;
+      }
+      .diagram-container {
         background: white !important;
         border: 1px solid #ccc !important;
       }
-      .prose-context {
-        background: white !important;
-        border-left-color: #666 !important;
-      }
-      a {
-        text-decoration: none;
-        color: black !important;
-      }
+      a { text-decoration: none; color: black !important; }
     }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
-      .header-content {
-        flex-direction: column;
-        text-align: center;
-      }
-      nav {
-        justify-content: center;
-      }
-      .logo-text h1 {
-        font-size: 1.6rem;
-      }
-      .poem-content {
-        font-size: 1.1rem;
-        padding: 1.2rem;
-      }
-      .card {
-        padding: 1.2rem;
-      }
-      .prose-context {
-        font-size: 0.9rem;
-        line-height: 1.8;
-      }
-      .actions {
-        flex-direction: column;
-      }
-      .btn {
-        width: 100%;
-        justify-content: center;
-      }
-      .page-frame {
-        padding: 8px;
-      }
-      .page-frame::before {
-        border-width: 3px;
-      }
+      .header-content { flex-direction: column; text-align: center; }
+      nav { justify-content: center; }
+      .logo-text h1 { font-size: 1.6rem; }
+      .poem-content { font-size: 1.15rem; padding: 1.5rem; line-height: 2.2; }
+      .card { padding: 1.2rem; }
+      .prose-context { font-size: 0.9rem; line-height: 1.8; }
+      .actions { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+      .page-frame { padding: 8px; }
+      .page-frame::before { border-width: 3px; }
+      .diagram-container { padding: 1rem; }
     }
 
     @media (max-width: 480px) {
-      .logo-text h1 {
-        font-size: 1.3rem;
-      }
-      .logo-text p {
-        font-size: 0.8rem;
-      }
-      .notice-banner {
-        margin: 1rem;
-        padding: 1rem;
-      }
-      .bamboo-tree {
-        font-size: 2.5rem;
-      }
+      .logo-text h1 { font-size: 1.3rem; }
+      .logo-text p { font-size: 0.8rem; }
+      .notice-banner { margin: 1rem; padding: 1rem; }
+      .bamboo-tree { font-size: 2.5rem; }
+      .poem-content { font-size: 1.05rem; padding: 1.2rem 1.5rem; }
     }
   </style>
 </head>
@@ -785,33 +740,77 @@
         <strong>Quy tắc nhân:</strong> Nếu có \(m\) cách làm việc A và \(n\) cách làm việc B, thì có \(m \times n\) cách thực hiện cả hai việc liên tiếp.<br><br>
         
         <div class="diagram-container">
-          <svg width="500" height="200" viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
-            <rect x="150" y="20" width="100" height="50" rx="8" fill="#4A90D9" stroke="#2C5F8A" stroke-width="2"/>
-            <text x="200" y="50" text-anchor="middle" fill="white" font-size="14">Bài toán đếm</text>
-            <line x1="200" y1="70" x2="120" y2="120" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
-            <line x1="200" y1="70" x2="280" y2="120" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+          <svg width="600" height="280" viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+              <marker id="arrow1" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
                 <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
               </marker>
+              <!-- Gradient cho nodes -->
+              <linearGradient id="gradBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#5BA3E5;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#4A90D9;stop-opacity:1" />
+              </linearGradient>
+              <linearGradient id="gradGreen" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#60C458;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#50B848;stop-opacity:1" />
+              </linearGradient>
+              <linearGradient id="gradOrange" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#F7B233;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#F5A623;stop-opacity:1" />
+              </linearGradient>
             </defs>
-            <rect x="30" y="120" width="130" height="60" rx="8" fill="#50B848" stroke="#2F7D2F" stroke-width="2"/>
-            <text x="95" y="145" text-anchor="middle" fill="white" font-size="12">Chỉnh hợp (có thứ tự)</text>
-            <text x="95" y="165" text-anchor="middle" fill="white" font-size="11">\(\displaystyle A_n^r = \frac{n!}{(n-r)!}\)</text>
-            <rect x="270" y="120" width="130" height="60" rx="8" fill="#F5A623" stroke="#D4891A" stroke-width="2"/>
-            <text x="335" y="145" text-anchor="middle" fill="white" font-size="12">Tổ hợp (không thứ tự)</text>
-            <text x="335" y="165" text-anchor="middle" fill="white" font-size="11">\(\displaystyle C_n^r = \frac{n!}{r!(n-r)!}\)</text>
+            
+            <!-- Node gốc -->
+            <rect x="225" y="15" width="150" height="55" rx="10" fill="url(#gradBlue)" stroke="#2C5F8A" stroke-width="2.5"/>
+            <foreignObject x="235" y="25" width="130" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
+                <span class="label">Bài toán đếm</span>
+                <span class="formula">\(n\) phần tử</span>
+              </div>
+            </foreignObject>
+            
+            <!-- Mũi tên phân nhánh -->
+            <line x1="300" y1="70" x2="180" y2="130" stroke="#666" stroke-width="2.5" marker-end="url(#arrow1)"/>
+            <line x1="300" y1="70" x2="420" y2="130" stroke="#666" stroke-width="2.5" marker-end="url(#arrow1)"/>
+            
+            <!-- Node Chỉnh hợp -->
+            <rect x="40" y="135" width="180" height="85" rx="10" fill="url(#gradGreen)" stroke="#2F7D2F" stroke-width="2.5"/>
+            <foreignObject x="50" y="145" width="160" height="65">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
+                <span class="label">📋 Chỉnh hợp</span>
+                <span class="formula">\(\displaystyle A_n^r = \frac{n!}{(n-r)!}\)</span>
+                <span class="label" style="margin-top:4px">Có thứ tự • Không lặp</span>
+              </div>
+            </foreignObject>
+            
+            <!-- Node Tổ hợp -->
+            <rect x="380" y="135" width="180" height="85" rx="10" fill="url(#gradOrange)" stroke="#D4891A" stroke-width="2.5"/>
+            <foreignObject x="390" y="145" width="160" height="65">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
+                <span class="label">🎲 Tổ hợp</span>
+                <span class="formula">\(\displaystyle C_n^r = \frac{n!}{r!(n-r)!}\)</span>
+                <span class="label" style="margin-top:4px">Không thứ tự • Không lặp</span>
+              </div>
+            </foreignObject>
+            
+            <!-- Node Quy tắc nhân (dưới cùng) -->
+            <rect x="210" y="225" width="180" height="45" rx="8" fill="#9B59B6" stroke="#7D3C98" stroke-width="2"/>
+            <foreignObject x="220" y="232" width="160" height="30">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
+                <span class="formula" style="font-size:0.9rem">Quy tắc nhân: \(m \times n\)</span>
+              </div>
+            </foreignObject>
           </svg>
-          <div class="diagram-caption">Sơ đồ cây Quy tắc đếm: Chỉnh hợp (có thứ tự) và Tổ hợp (không thứ tự)</div>
+          <div class="diagram-caption">🔗 Sơ đồ tư duy: Phân loại bài toán đếm với công thức tương ứng</div>
         </div>
         
         <strong>Ví dụ kinh doanh:</strong>
         <table class="diagram-table">
-          <thead><tr><th>Tình huống</th><th>Loại</th><th>Tính toán</th></tr></thead>
+          <thead><tr><th>Tình huống</th><th>Loại</th><th>Công thức</th><th>Kết quả</th></tr></thead>
           <tbody>
-            <tr><td>Xếp 5 nhân viên vào 5 vị trí khác nhau</td><td>Chỉnh hợp</td><td>\(\displaystyle 5! = 120\) cách</td></tr>
-            <tr><td>Chọn 3 sản phẩm từ 10 để trưng bày (không xếp thứ tự)</td><td>Tổ hợp</td><td>\(\displaystyle C_{10}^3 = 120\) cách</td></tr>
-            <tr><td>Chọn 3 sản phẩm từ 10 để xếp vào 3 vị trí khác nhau</td><td>Chỉnh hợp</td><td>\(\displaystyle A_{10}^3 = 720\) cách</td></tr>
+            <tr><td>Xếp 5 nhân viên vào 5 vị trí</td><td>Chỉnh hợp</td><td>\(\displaystyle 5!\)</td><td>120 cách</td></tr>
+            <tr><td>Chọn 3 sản phẩm từ 10 (không xếp)</td><td>Tổ hợp</td><td>\(\displaystyle C_{10}^3\)</td><td>120 cách</td></tr>
+            <tr><td>Chọn 3 từ 10 để xếp vào 3 vị trí</td><td>Chỉnh hợp</td><td>\(\displaystyle A_{10}^3\)</td><td>720 cách</td></tr>
           </tbody>
         </table>
       </div>
@@ -829,7 +828,7 @@ Toán đếm vững bước dặm trường thênh thang.
       
       <div class="actions">
         <button class="btn copy" onclick="copyPoem('poem1')">📋 Copy thơ</button>
-        <a href="https://github.com/maitheduy/Thovochu/issues/new?title=Góp%20ý%20sửa%20thơ%20-%20Bài%201:%20Quy%20tắc%20đếm%20cơ%20bản&body=Quý%20vị%20hãy%20viết%20đề%20xuất%20chỉnh%20sửa%20tại%20đây" class="btn github" target="_blank">🐙 Góp ý trên GitHub</a>
+        <a href="https://github.com/maitheduy/Thovochu/issues/new?title=Góp%20ý%20sửa%20thơ%20-%20Bài%201" class="btn github" target="_blank">🐙 Góp ý GitHub</a>
       </div>
     </article>
 
@@ -854,36 +853,110 @@ Toán đếm vững bước dặm trường thênh thang.
         Ví dụ: Chọn 3 bạn từ 10 bạn để đi lao động → \(\displaystyle C_{10}^3 = 120\) cách.<br><br>
         
         <div class="diagram-container">
-          <svg width="400" height="350" viewBox="0 0 400 350" xmlns="http://www.w3.org/2000/svg">
-            <rect x="130" y="10" width="100" height="40" rx="8" fill="#4A90D9" stroke="#2C5F8A" stroke-width="2"/>
-            <text x="180" y="35" text-anchor="middle" fill="white" font-size="13">Bài toán đếm</text>
-            <line x1="180" y1="50" x2="180" y2="80" stroke="#666" stroke-width="2" marker-end="url(#arrow2)"/>
-            <rect x="120" y="85" width="120" height="40" rx="8" fill="#F5A623" stroke="#D4891A" stroke-width="2"/>
-            <text x="180" y="110" text-anchor="middle" fill="white" font-size="12">Có lặp lại?</text>
-            <line x1="140" y1="125" x2="70" y2="180" stroke="#666" stroke-width="2" marker-end="url(#arrow2)"/>
-            <line x1="220" y1="125" x2="290" y2="180" stroke="#666" stroke-width="2" marker-end="url(#arrow2)"/>
-            <rect x="20" y="185" width="100" height="50" rx="8" fill="#50B848" stroke="#2F7D2F" stroke-width="2"/>
-            <text x="70" y="210" text-anchor="middle" fill="white" font-size="12">CÓ LẶP</text>
-            <text x="70" y="225" text-anchor="middle" fill="white" font-size="13">\(n^r\)</text>
-            <rect x="240" y="185" width="100" height="50" rx="8" fill="#4A90D9" stroke="#2C5F8A" stroke-width="2"/>
-            <text x="290" y="210" text-anchor="middle" fill="white" font-size="12">KHÔNG LẶP</text>
-            <text x="290" y="225" text-anchor="middle" fill="white" font-size="12">→ Xét thứ tự</text>
-            <line x1="290" y1="235" x2="290" y2="270" stroke="#666" stroke-width="2" marker-end="url(#arrow2)"/>
-            <rect x="220" y="275" width="140" height="50" rx="8" fill="#E74C3C" stroke="#C0392B" stroke-width="2"/>
-            <text x="290" y="300" text-anchor="middle" fill="white" font-size="12">Thứ tự quan trọng?</text>
-            <line x1="250" y1="325" x2="180" y2="310" stroke="#666" stroke-width="2" marker-end="url(#arrow2)"/>
-            <line x1="330" y1="325" x2="380" y2="310" stroke="#666" stroke-width="2" marker-end="url(#arrow2)"/>
-            <rect x="100" y="300" width="80" height="40" rx="8" fill="#F39C12" stroke="#D68910" stroke-width="2"/>
-            <text x="140" y="325" text-anchor="middle" fill="white" font-size="13">\(A_n^r\)</text>
-            <rect x="360" y="300" width="80" height="40" rx="8" fill="#2ECC71" stroke="#27AE60" stroke-width="2"/>
-            <text x="400" y="325" text-anchor="middle" fill="white" font-size="13">\(C_n^r\)</text>
+          <svg width="550" height="480" viewBox="0 0 550 480" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <marker id="arrow2" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
-                <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+                <polygon points="0 0, 10 3.5, 0 7" fill="#555"/>
               </marker>
+              <linearGradient id="gStart" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#5BA3E5"/>
+                <stop offset="100%" style="stop-color:#4A90D9"/>
+              </linearGradient>
+              <linearGradient id="gRepeat" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#F7B233"/>
+                <stop offset="100%" style="stop-color:#F5A623"/>
+              </linearGradient>
+              <linearGradient id="gNoRepeat" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#5BA3E5"/>
+                <stop offset="100%" style="stop-color:#4A90D9"/>
+              </linearGradient>
+              <linearGradient id="gPerm" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#E75B63"/>
+                <stop offset="100%" style="stop-color:#E74C3C"/>
+              </linearGradient>
+              <linearGradient id="gComb" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#3DD494"/>
+                <stop offset="100%" style="stop-color:#2ECC71"/>
+              </linearGradient>
             </defs>
+            
+            <!-- Node gốc -->
+            <rect x="185" y="15" width="180" height="50" rx="10" fill="url(#gStart)" stroke="#2C5F8A" stroke-width="2.5"/>
+            <foreignObject x="195" y="22" width="160" height="36">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
+                <span class="formula" style="font-size:0.95rem">Bài toán: chọn \(r\) từ \(n\)</span>
+              </div>
+            </foreignObject>
+            
+            <!-- Mũi tên xuống -->
+            <line x1="275" y1="65" x2="275" y2="95" stroke="#555" stroke-width="2.5" marker-end="url(#arrow2)"/>
+            
+            <!-- Node Có lặp? -->
+            <rect x="165" y="95" width="220" height="45" rx="10" fill="url(#gRepeat)" stroke="#D4891A" stroke-width="2.5"/>
+            <foreignObject x="175" y="102" width="200" height="30">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
+                <span class="formula">❓ Có lặp lại phần tử?</span>
+              </div>
+            </foreignObject>
+            
+            <!-- Nhánh CÓ LẶP -->
+            <line x1="220" y1="140" x2="120" y2="200" stroke="#555" stroke-width="2" marker-end="url(#arrow2)"/>
+            <text x="155" y="175" font-size="11" fill="#666" font-style="italic">CÓ</text>
+            <rect x="40" y="200" width="160" height="70" rx="10" fill="url(#gRepeat)" stroke="#B8860B" stroke-width="2.5"/>
+            <foreignObject x="50" y="208" width="140" height="54">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
+                <span class="label">✅ CÓ LẶP</span>
+                <span class="formula">\(\displaystyle n^r\)</span>
+                <span class="label">Vd: Mã PIN 4 số</span>
+              </div>
+            </foreignObject>
+            
+            <!-- Nhánh KHÔNG LẶP -->
+            <line x1="330" y1="140" x2="430" y2="200" stroke="#555" stroke-width="2" marker-end="url(#arrow2)"/>
+            <text x="365" y="175" font-size="11" fill="#666" font-style="italic">KHÔNG</text>
+            <rect x="350" y="200" width="160" height="50" rx="10" fill="url(#gNoRepeat)" stroke="#2C5F8A" stroke-width="2.5"/>
+            <foreignObject x="360" y="208" width="140" height="34">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
+                <span class="formula">❓ Thứ tự quan trọng?</span>
+              </div>
+            </foreignObject>
+            
+            <!-- Mũi tên xuống từ "Thứ tự quan trọng?" -->
+            <line x1="430" y1="250" x2="430" y2="285" stroke="#555" stroke-width="2.5" marker-end="url(#arrow2)"/>
+            
+            <!-- Node quyết định thứ tự -->
+            <rect x="340" y="285" width="180" height="45" rx="10" fill="#9B59B6" stroke="#7D3C98" stroke-width="2.5"/>
+            <foreignObject x="350" y="292" width="160" height="30">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
+                <span class="formula">🔀 Xét thứ tự?</span>
+              </div>
+            </foreignObject>
+            
+            <!-- Nhánh CÓ THỨ TỰ → Chỉnh hợp -->
+            <line x1="385" y1="330" x2="280" y2="380" stroke="#555" stroke-width="2" marker-end="url(#arrow2)"/>
+            <text x="315" y="360" font-size="11" fill="#666" font-style="italic">CÓ</text>
+            <rect x="190" y="380" width="180" height="80" rx="10" fill="url(#gPerm)" stroke="#C0392B" stroke-width="2.5"/>
+            <foreignObject x="200" y="388" width="160" height="64">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
+                <span class="label">📋 Chỉnh hợp</span>
+                <span class="formula">\(\displaystyle A_n^r = \frac{n!}{(n-r)!}\)</span>
+                <span class="label">Vd: Xếp ghế, bầu chức</span>
+              </div>
+            </foreignObject>
+            
+            <!-- Nhánh KHÔNG THỨ TỰ → Tổ hợp -->
+            <line x1="475" y1="330" x2="520" y2="380" stroke="#555" stroke-width="2" marker-end="url(#arrow2)"/>
+            <text x="480" y="360" font-size="11" fill="#666" font-style="italic">KHÔNG</text>
+            <rect x="430" y="380" width="180" height="80" rx="10" fill="url(#gComb)" stroke="#27AE60" stroke-width="2.5"/>
+            <foreignObject x="440" y="388" width="160" height="64">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
+                <span class="label">🎲 Tổ hợp</span>
+                <span class="formula">\(\displaystyle C_n^r = \frac{n!}{r!(n-r)!}\)</span>
+                <span class="label">Vd: Chọn đội, lấy mẫu</span>
+              </div>
+            </foreignObject>
           </svg>
-          <div class="diagram-caption">Sơ đồ quyết định lựa chọn công thức đếm phù hợp</div>
+          <div class="diagram-caption">🧭 Sơ đồ quyết định: Chọn công thức đếm phù hợp dựa trên 2 câu hỏi then chốt</div>
         </div>
       </div>
       
@@ -900,7 +973,7 @@ Giải bài nhanh nhẹn chẳng hề âu lo.
       
       <div class="actions">
         <button class="btn copy" onclick="copyPoem('poem2')">📋 Copy thơ</button>
-        <a href="https://github.com/maitheduy/Thovochu/issues/new?title=Góp%20ý%20sửa%20thơ%20-%20Bài%202:%20Phân%20biệt%20chỉnh%20hợp%20và%20tổ%20hợp" class="btn github" target="_blank">🐙 Góp ý trên GitHub</a>
+        <a href="https://github.com/maitheduy/Thovochu/issues/new?title=Góp%20ý%20sửa%20thơ%20-%20Bài%202" class="btn github" target="_blank">🐙 Góp ý GitHub</a>
       </div>
     </article>
 
@@ -925,18 +998,61 @@ Giải bài nhanh nhẹn chẳng hề âu lo.
         3. <strong>Chọn nhà cung cấp:</strong> Chọn 3 từ 10 nhà cung cấp để đàm phán → \(\displaystyle C_{10}^3 = 120\) cách.<br><br>
         
         <div class="diagram-container">
-          <svg width="500" height="180" viewBox="0 0 500 180" xmlns="http://www.w3.org/2000/svg">
-            <rect x="20" y="10" width="140" height="80" rx="8" fill="#4A90D9" stroke="#2C5F8A" stroke-width="2"/>
-            <text x="90" y="35" text-anchor="middle" fill="white" font-size="12">Phân khúc KH</text>
-            <text x="90" y="55" text-anchor="middle" fill="white" font-size="11">\(\displaystyle 3^5 = 243\)</text>
-            <rect x="180" y="10" width="140" height="80" rx="8" fill="#50B848" stroke="#2F7D2F" stroke-width="2"/>
-            <text x="250" y="35" text-anchor="middle" fill="white" font-size="12">Xếp lịch làm</text>
-            <text x="250" y="55" text-anchor="middle" fill="white" font-size="11">\(\displaystyle 7! = 5040\)</text>
-            <rect x="340" y="10" width="140" height="80" rx="8" fill="#F5A623" stroke="#D4891A" stroke-width="2"/>
-            <text x="410" y="35" text-anchor="middle" fill="white" font-size="12">Chọn NCC</text>
-            <text x="410" y="55" text-anchor="middle" fill="white" font-size="11">\(\displaystyle C_{10}^3 = 120\)</text>
-            <text x="250" y="160" text-anchor="middle" fill="#5D4037" font-size="12">Ứng dụng Quy tắc đếm trong kinh doanh tại Hong Kong</text>
+          <svg width="650" height="220" viewBox="0 0 650 220" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="biz1" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#5BA3E5"/>
+                <stop offset="100%" style="stop-color:#4A90D9"/>
+              </linearGradient>
+              <linearGradient id="biz2" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#60C458"/>
+                <stop offset="100%" style="stop-color:#50B848"/>
+              </linearGradient>
+              <linearGradient id="biz3" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#F7B233"/>
+                <stop offset="100%" style="stop-color:#F5A623"/>
+              </linearGradient>
+            </defs>
+            
+            <!-- Node 1: Phân khúc KH -->
+            <rect x="30" y="25" width="170" height="110" rx="12" fill="url(#biz1)" stroke="#2C5F8A" stroke-width="2.5"/>
+            <foreignObject x="40" y="35" width="150" height="90">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
+                <span class="label" style="font-size:0.8rem">👥 Phân khúc KH</span>
+                <span class="formula">\(\displaystyle 3^5 = 243\)</span>
+                <span class="label">5 đặc điểm × 3 lựa chọn</span>
+              </div>
+            </foreignObject>
+            
+            <!-- Node 2: Xếp lịch -->
+            <rect x="240" y="25" width="170" height="110" rx="12" fill="url(#biz2)" stroke="#2F7D2F" stroke-width="2.5"/>
+            <foreignObject x="250" y="35" width="150" height="90">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
+                <span class="label" style="font-size:0.8rem">📅 Xếp lịch làm</span>
+                <span class="formula">\(\displaystyle 7! = 5040\)</span>
+                <span class="label">7 nhân viên, 7 ca</span>
+              </div>
+            </foreignObject>
+            
+            <!-- Node 3: Chọn NCC -->
+            <rect x="450" y="25" width="170" height="110" rx="12" fill="url(#biz3)" stroke="#D4891A" stroke-width="2.5"/>
+            <foreignObject x="460" y="35" width="150" height="90">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
+                <span class="label" style="font-size:0.8rem">🤝 Chọn NCC</span>
+                <span class="formula">\(\displaystyle C_{10}^3 = 120\)</span>
+                <span class="label">Chọn 3 từ 10, không thứ tự</span>
+              </div>
+            </foreignObject>
+            
+            <!-- Tiêu đề dưới -->
+            <text x="325" y="195" text-anchor="middle" fill="#5D4037" font-size="13" font-weight="600">
+              💼 Ứng dụng Quy tắc đếm trong kinh doanh
+            </text>
+            <text x="325" y="212" text-anchor="middle" fill="#8D6E63" font-size="10" font-style="italic">
+              Hong Kong • Tối ưu hóa quyết định
+            </text>
           </svg>
+          <div class="diagram-caption">📊 Ba ví dụ thực tế: Phân khúc khách hàng, xếp lịch, và lựa chọn đối tác</div>
         </div>
       </div>
       
@@ -953,7 +1069,7 @@ Tổ hợp tính gọn quản trị đỉnh cao.
       
       <div class="actions">
         <button class="btn copy" onclick="copyPoem('poem3')">📋 Copy thơ</button>
-        <a href="https://github.com/maitheduy/Thovochu/issues/new?title=Góp%20ý%20sửa%20thơ%20-%20Bài%203:%20Ứng%20dụng%20trong%20kinh%20doanh" class="btn github" target="_blank">🐙 Góp ý trên GitHub</a>
+        <a href="https://github.com/maitheduy/Thovochu/issues/new?title=Góp%20ý%20sửa%20thơ%20-%20Bài%203" class="btn github" target="_blank">🐙 Góp ý GitHub</a>
       </div>
     </article>
 
@@ -993,7 +1109,7 @@ Kết hợp trang phục muôn vàn sắc xinh.
       
       <div class="actions">
         <button class="btn copy" onclick="copyPoem('poem4')">📋 Copy thơ</button>
-        <a href="https://github.com/maitheduy/Thovochu/issues/new?title=Góp%20ý%20sửa%20thơ%20-%20Bài%204:%20Giai%20thừa%20và%20quy%20tắc%20nhân" class="btn github" target="_blank">🐙 Góp ý trên GitHub</a>
+        <a href="https://github.com/maitheduy/Thovochu/issues/new?title=Góp%20ý%20sửa%20thơ%20-%20Bài%204" class="btn github" target="_blank">🐙 Góp ý GitHub</a>
       </div>
     </article>
 
@@ -1036,7 +1152,7 @@ Diễn giải kết quả triền miên,
       
       <div class="actions">
         <button class="btn copy" onclick="copyPoem('poem5')">📋 Copy thơ</button>
-        <a href="https://github.com/maitheduy/Thovochu/issues/new?title=Góp%20ý%20sửa%20thơ%20-%20Bài%205:%20Quy%20trình%20AI-first" class="btn github" target="_blank">🐙 Góp ý trên GitHub</a>
+        <a href="https://github.com/maitheduy/Thovochu/issues/new?title=Góp%20ý%20sửa%20thơ%20-%20Bài%205" class="btn github" target="_blank">🐙 Góp ý GitHub</a>
       </div>
     </article>
 
@@ -1090,15 +1206,12 @@ Diễn giải kết quả triền miên,
 
   <!-- ===== JAVASCRIPT ===== -->
   <script>
-    // ===== COPY POEM FUNCTION =====
     function copyPoem(elementId) {
       const poem = document.getElementById(elementId);
       const text = poem.innerText.trim();
-      
       navigator.clipboard.writeText(text).then(() => {
         showToast('📋 Đã copy thơ lipsum vào clipboard!');
       }).catch(err => {
-        // Fallback cho trình duyệt cũ
         const textarea = document.createElement('textarea');
         textarea.value = text;
         document.body.appendChild(textarea);
@@ -1109,25 +1222,19 @@ Diễn giải kết quả triền miên,
       });
     }
 
-    // ===== TOAST NOTIFICATION =====
     function showToast(message) {
       const toast = document.getElementById('toast');
-      const toastMessage = document.getElementById('toastMessage');
-      toastMessage.textContent = message;
+      document.getElementById('toastMessage').textContent = message;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    // ===== DARK MODE TOGGLE =====
     const darkModeToggle = document.getElementById('darkModeToggle');
     const DARK_MODE_KEY = 'thovochu_dark_mode';
-    
-    // Load saved preference
     if (localStorage.getItem(DARK_MODE_KEY) === 'true') {
       document.body.classList.add('dark-mode');
       darkModeToggle.textContent = '☀️ Light';
     }
-    
     darkModeToggle.addEventListener('click', () => {
       document.body.classList.toggle('dark-mode');
       const isDark = document.body.classList.contains('dark-mode');
@@ -1136,12 +1243,9 @@ Diễn giải kết quả triền miên,
       showToast(isDark ? '🌙 Đã bật chế độ tối' : '☀️ Đã bật chế độ sáng');
     });
 
-    // ===== PRINT / PDF EXPORT =====
     document.getElementById('printBtn').addEventListener('click', () => {
       const action = confirm('Chọn OK để xuất PDF, hoặc Cancel để in trực tiếp');
-      
       if (action) {
-        // Export PDF
         showToast('📄 Đang tạo PDF...');
         const element = document.getElementById('mainContent');
         const opt = {
@@ -1153,24 +1257,18 @@ Diễn giải kết quả triền miên,
         };
         html2pdf().set(opt).from(element).save().then(() => {
           showToast('✅ Đã tải PDF thành công!');
-        }).catch(err => {
-          showToast('❌ Lỗi khi tạo PDF');
-          console.error(err);
-        });
+        }).catch(err => { showToast('❌ Lỗi khi tạo PDF'); console.error(err); });
       } else {
-        // Print directly
         window.print();
       }
     });
 
-    // ===== KEYBOARD NAVIGATION =====
     document.addEventListener('keydown', (e) => {
       const articles = document.querySelectorAll('.card');
       const currentIndex = Array.from(articles).findIndex(el => {
         const rect = el.getBoundingClientRect();
         return rect.top >= 0 && rect.top < window.innerHeight;
       });
-      
       if (e.key === 'ArrowDown' && currentIndex < articles.length - 1) {
         e.preventDefault();
         articles[currentIndex + 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1180,25 +1278,17 @@ Diễn giải kết quả triền miên,
       }
     });
 
-    // ===== MATHJAX VERIFICATION =====
     window.addEventListener('load', () => {
       if (typeof MathJax !== 'undefined') {
         console.log('✅ MathJax loaded successfully');
-        setTimeout(() => {
-          showToast('📚 Chào mừng đến với Bài giảng về QUY TẮC ĐẾM!');
-        }, 1000);
+        setTimeout(() => showToast('📚 Chào mừng đến với Bài giảng về QUY TẮC ĐẾM!'), 1000);
       } else {
-        console.warn('⚠️ MathJax not detected - check CDN connection');
+        console.warn('⚠️ MathJax not detected');
         showToast('⚠️ Không tải được công thức toán - kiểm tra kết nối');
       }
     });
 
-    // ===== INTERSECTION OBSERVER FOR ANIMATIONS =====
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-    
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -1207,7 +1297,6 @@ Diễn giải kết quả triền miên,
         }
       });
     }, observerOptions);
-    
     document.querySelectorAll('.animate').forEach(el => {
       el.style.opacity = '0';
       el.style.transform = 'translateY(20px)';

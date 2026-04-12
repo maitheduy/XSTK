@@ -837,6 +837,19 @@ Biết đếm vững chắc đến trường thống kê.
       <div class="card-header">
         <div class="poem-info">
           <h3>📖 Bài 2: Phân biệt Chỉnh hợp và Tổ hợp</h3>
+                </div>
+      
+      <div class="actions">
+        <button class="btn copy" onclick="copyPoem('poem1')">📋 Copy thơ</button>
+        <a href="https://github.com/maitheduy/Thovochu/issues/new?title=Góp%20ý%20sửa%20thơ%20-%20Bài%201" class="btn github" target="_blank">🐙 Góp ý GitHub</a>
+      </div>
+    </article>
+
+    <!-- BÀI 2: Phân biệt chỉnh hợp và tổ hợp -->
+    <article class="card animate" id="post2" style="animation-delay: 0.1s">
+      <div class="card-header">
+        <div class="poem-info">
+          <h3>📖 Bài 2: Phân biệt Chỉnh hợp và Tổ hợp</h3>
           <div class="poem-meta">Chủ đề: Sơ đồ quyết định • Ứng dụng thực tế</div>
         </div>
         <span class="poem-badge">💬 Góp ý</span>
@@ -853,109 +866,31 @@ Biết đếm vững chắc đến trường thống kê.
         Ví dụ: Chọn 3 bạn từ 10 bạn để đi lao động → \(\displaystyle C_{10}^3 = 120\) cách.<br><br>
         
         <div class="diagram-container">
-          <svg width="550" height="480" viewBox="0 0 550 480" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <marker id="arrow2" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
-                <polygon points="0 0, 10 3.5, 0 7" fill="#555"/>
-              </marker>
-              <linearGradient id="gStart" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" style="stop-color:#5BA3E5"/>
-                <stop offset="100%" style="stop-color:#4A90D9"/>
-              </linearGradient>
-              <linearGradient id="gRepeat" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" style="stop-color:#F7B233"/>
-                <stop offset="100%" style="stop-color:#F5A623"/>
-              </linearGradient>
-              <linearGradient id="gNoRepeat" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" style="stop-color:#5BA3E5"/>
-                <stop offset="100%" style="stop-color:#4A90D9"/>
-              </linearGradient>
-              <linearGradient id="gPerm" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" style="stop-color:#E75B63"/>
-                <stop offset="100%" style="stop-color:#E74C3C"/>
-              </linearGradient>
-              <linearGradient id="gComb" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" style="stop-color:#3DD494"/>
-                <stop offset="100%" style="stop-color:#2ECC71"/>
-              </linearGradient>
-            </defs>
-            
-            <!-- Node gốc -->
-            <rect x="185" y="15" width="180" height="50" rx="10" fill="url(#gStart)" stroke="#2C5F8A" stroke-width="2.5"/>
-            <foreignObject x="195" y="22" width="160" height="36">
-              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
-                <span class="formula" style="font-size:0.95rem">Bài toán: chọn \(r\) từ \(n\)</span>
-              </div>
-            </foreignObject>
-            
-            <!-- Mũi tên xuống -->
-            <line x1="275" y1="65" x2="275" y2="95" stroke="#555" stroke-width="2.5" marker-end="url(#arrow2)"/>
-            
-            <!-- Node Có lặp? -->
-            <rect x="165" y="95" width="220" height="45" rx="10" fill="url(#gRepeat)" stroke="#D4891A" stroke-width="2.5"/>
-            <foreignObject x="175" y="102" width="200" height="30">
-              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
-                <span class="formula">❓ Có lặp lại phần tử?</span>
-              </div>
-            </foreignObject>
-            
-            <!-- Nhánh CÓ LẶP -->
-            <line x1="220" y1="140" x2="120" y2="200" stroke="#555" stroke-width="2" marker-end="url(#arrow2)"/>
-            <text x="155" y="175" font-size="11" fill="#666" font-style="italic">CÓ</text>
-            <rect x="40" y="200" width="160" height="70" rx="10" fill="url(#gRepeat)" stroke="#B8860B" stroke-width="2.5"/>
-            <foreignObject x="50" y="208" width="140" height="54">
-              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
-                <span class="label">✅ CÓ LẶP</span>
-                <span class="formula">\(\displaystyle n^r\)</span>
-                <span class="label">Vd: Mã PIN 4 số</span>
-              </div>
-            </foreignObject>
-            
-            <!-- Nhánh KHÔNG LẶP -->
-            <line x1="330" y1="140" x2="430" y2="200" stroke="#555" stroke-width="2" marker-end="url(#arrow2)"/>
-            <text x="365" y="175" font-size="11" fill="#666" font-style="italic">KHÔNG</text>
-            <rect x="350" y="200" width="160" height="50" rx="10" fill="url(#gNoRepeat)" stroke="#2C5F8A" stroke-width="2.5"/>
-            <foreignObject x="360" y="208" width="140" height="34">
-              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
-                <span class="formula">❓ Thứ tự quan trọng?</span>
-              </div>
-            </foreignObject>
-            
-            <!-- Mũi tên xuống từ "Thứ tự quan trọng?" -->
-            <line x1="430" y1="250" x2="430" y2="285" stroke="#555" stroke-width="2.5" marker-end="url(#arrow2)"/>
-            
-            <!-- Node quyết định thứ tự -->
-            <rect x="340" y="285" width="180" height="45" rx="10" fill="#9B59B6" stroke="#7D3C98" stroke-width="2.5"/>
-            <foreignObject x="350" y="292" width="160" height="30">
-              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
-                <span class="formula">🔀 Xét thứ tự?</span>
-              </div>
-            </foreignObject>
-            
-            <!-- Nhánh CÓ THỨ TỰ → Chỉnh hợp -->
-            <line x1="385" y1="330" x2="280" y2="380" stroke="#555" stroke-width="2" marker-end="url(#arrow2)"/>
-            <text x="315" y="360" font-size="11" fill="#666" font-style="italic">CÓ</text>
-            <rect x="190" y="380" width="180" height="80" rx="10" fill="url(#gPerm)" stroke="#C0392B" stroke-width="2.5"/>
-            <foreignObject x="200" y="388" width="160" height="64">
-              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
-                <span class="label">📋 Chỉnh hợp</span>
-                <span class="formula">\(\displaystyle A_n^r = \frac{n!}{(n-r)!}\)</span>
-                <span class="label">Vd: Xếp ghế, bầu chức</span>
-              </div>
-            </foreignObject>
-            
-            <!-- Nhánh KHÔNG THỨ TỰ → Tổ hợp -->
-            <line x1="475" y1="330" x2="520" y2="380" stroke="#555" stroke-width="2" marker-end="url(#arrow2)"/>
-            <text x="480" y="360" font-size="11" fill="#666" font-style="italic">KHÔNG</text>
-            <rect x="430" y="380" width="180" height="80" rx="10" fill="url(#gComb)" stroke="#27AE60" stroke-width="2.5"/>
-            <foreignObject x="440" y="388" width="160" height="64">
-              <div xmlns="http://www.w3.org/1999/xhtml" class="math-node">
-                <span class="label">🎲 Tổ hợp</span>
-                <span class="formula">\(\displaystyle C_n^r = \frac{n!}{r!(n-r)!}\)</span>
-                <span class="label">Vd: Chọn đội, lấy mẫu</span>
-              </div>
-            </foreignObject>
-          </svg>
+          <svg width="700" height="550" viewBox="0 0 700 550" xmlns="http://www.w3.org/2000/svg" class="overflow-visible"><defs><marker id="arrow2" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#555"/></marker><linearGradient id="gStart" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color: rgb(91, 163, 229);"/><stop offset="100%" style="stop-color: rgb(74, 144, 217);"/></linearGradient><linearGradient id="gRepeat" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color: rgb(247, 178, 51);"/><stop offset="100%" style="stop-color: rgb(245, 166, 35);"/></linearGradient><linearGradient id="gNoRepeat" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color: rgb(91, 163, 229);"/><stop offset="100%" style="stop-color: rgb(74, 144, 217);"/></linearGradient><linearGradient id="gPerm" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color: rgb(231, 91, 99);"/><stop offset="100%" style="stop-color: rgb(231, 76, 60);"/></linearGradient><linearGradient id="gComb" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color: rgb(61, 212, 148);"/><stop offset="100%" style="stop-color: rgb(46, 204, 113);"/></linearGradient><style>
+                  .math-node {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    height: 100%;
+                    text-align: center;
+                    font-family: 'Inter', sans-serif;
+                    color: #fff;
+                    line-height: 1.2;
+                    padding: 4px;
+                  }
+                  .formula { 
+                    font-weight: bold; 
+                    font-size: 0.9rem; 
+                    margin: 2px 0;
+                    display: block;
+                  }
+                  .label { 
+                    font-size: 0.7rem; 
+                    opacity: 0.85; 
+                    display: block;
+                  }
+                </style></defs><g><line x1="275" y1="65" x2="275" y2="95" stroke="#555" stroke-width="2" marker-end="url(#arrow2)"/></g><g><line x1="275" y1="140" x2="120" y2="200" stroke="#555" stroke-width="2" marker-end="url(#arrow2)"/><g class="cursor-pointer"><rect x="167.5" y="155" width="60" height="30" fill="transparent"/><text x="197.5" y="170" font-size="11" fill="#666" font-weight="normal" font-style="italic" text-anchor="middle" class="transition-all duration-200">CÓ</text></g></g><g><line x1="275" y1="140" x2="430" y2="200" stroke="#555" stroke-width="2" marker-end="url(#arrow2)"/><g class="cursor-pointer"><rect x="322.5" y="155" width="60" height="30" fill="transparent"/><text x="352.5" y="170" font-size="11" fill="#666" font-weight="normal" font-style="italic" text-anchor="middle" class="transition-all duration-200">KHÔNG</text></g></g><g><line x1="430" y1="250" x2="430" y2="285" stroke="#555" stroke-width="2" marker-end="url(#arrow2)"/></g><g><line x1="430" y1="330" x2="280" y2="380" stroke="#555" stroke-width="2" marker-end="url(#arrow2)"/><g class="cursor-pointer"><rect x="325" y="340" width="60" height="30" fill="transparent"/><text x="355" y="355" font-size="11" fill="#666" font-weight="normal" font-style="italic" text-anchor="middle" class="transition-all duration-200">CÓ</text></g></g><g><line x1="430" y1="330" x2="520" y2="380" stroke="#555" stroke-width="2" marker-end="url(#arrow2)"/><g class="cursor-pointer"><rect x="445" y="340" width="60" height="30" fill="transparent"/><text x="475" y="355" font-size="11" fill="#666" font-weight="normal" font-style="italic" text-anchor="middle" class="transition-all duration-200">KHÔNG</text></g></g><g style="cursor: grab;"><rect x="185" y="15" width="180" height="50" rx="10" fill="url(#gStart)" stroke="#2C5F8A" stroke-width="2.5" class="transition-all duration-200"/><foreignObject x="195" y="20" width="160" height="40" style="pointer-events: none;"><div xmlns="http://www.w3.org/1999/xhtml" class="w-full h-full"><div class="math-node"><span class="formula" style="font-size:0.95rem">Bài toán: chọn \(r\) từ \(n\)</span></div></div></foreignObject></g><g style="cursor: grab;"><rect x="165" y="95" width="220" height="45" rx="10" fill="url(#gRepeat)" stroke="#D4891A" stroke-width="2.5" class="transition-all duration-200"/><foreignObject x="175" y="100" width="200" height="35" style="pointer-events: none;"><div xmlns="http://www.w3.org/1999/xhtml" class="w-full h-full"><div class="math-node"><span class="formula">❓ Có lặp lại phần tử?</span></div></div></foreignObject></g><g style="cursor: grab;"><rect x="40" y="200" width="160" height="70" rx="10" fill="url(#gRepeat)" stroke="#B8860B" stroke-width="2.5" class="transition-all duration-200"/><foreignObject x="50" y="205" width="140" height="60" style="pointer-events: none;"><div xmlns="http://www.w3.org/1999/xhtml" class="w-full h-full"><div class="math-node"><span class="label">✅ CÓ LẶP</span><span class="formula">\(\displaystyle n^r\)</span><span class="label">Vd: Mã PIN 4 số</span></div></div></foreignObject></g><g style="cursor: grab;"><rect x="350" y="200" width="160" height="50" rx="10" fill="url(#gNoRepeat)" stroke="#2C5F8A" stroke-width="2.5" class="transition-all duration-200"/><foreignObject x="360" y="205" width="140" height="40" style="pointer-events: none;"><div xmlns="http://www.w3.org/1999/xhtml" class="w-full h-full"><div class="math-node"><span class="formula">❓ Thứ tự quan trọng?</span></div></div></foreignObject></g><g style="cursor: grab;"><rect x="340" y="285" width="180" height="45" rx="10" fill="#9B59B6" stroke="#7D3C98" stroke-width="2.5" class="transition-all duration-200"/><foreignObject x="350" y="290" width="160" height="35" style="pointer-events: none;"><div xmlns="http://www.w3.org/1999/xhtml" class="w-full h-full"><div class="math-node"><span class="formula">🔀 Xét thứ tự?</span></div></div></foreignObject></g><g style="cursor: grab;"><rect x="190" y="380" width="180" height="80" rx="10" fill="url(#gPerm)" stroke="#C0392B" stroke-width="2.5" class="transition-all duration-200"/><foreignObject x="200" y="385" width="160" height="70" style="pointer-events: none;"><div xmlns="http://www.w3.org/1999/xhtml" class="w-full h-full"><div class="math-node"><span class="label">📋 Chỉnh hợp</span><span class="formula">\(\displaystyle A_n^r = \frac{n!}{(n-r)!}\)</span><span class="label">Vd: Xếp ghế, bầu chức</span></div></div></foreignObject></g><g style="cursor: grab;"><rect x="430" y="380" width="180" height="80" rx="10" fill="url(#gComb)" stroke="#27AE60" stroke-width="2.5" class="transition-all duration-200"/><foreignObject x="440" y="385" width="160" height="70" style="pointer-events: none;"><div xmlns="http://www.w3.org/1999/xhtml" class="w-full h-full"><div class="math-node"><span class="label">🎲 Tổ hợp</span><span class="formula">\(\displaystyle C_n^r = \frac{n!}{r!(n-r)!}\)</span><span class="label">Vd: Chọn đội, lấy mẫu</span></div></div></foreignObject></g></svg>
           <div class="diagram-caption">🧭 Sơ đồ quyết định: Chọn công thức đếm phù hợp dựa trên 2 câu hỏi then chốt</div>
         </div>
       </div>
